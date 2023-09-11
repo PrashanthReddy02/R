@@ -1,0 +1,137 @@
+1vectors:
+A<-c(1,2,3,4,5)
+B<-c(6,7,8,9,10)
+sumAB<-A+B
+diffAB<-A-B
+prodAB<-A*B
+divAB<-A/B
+powAB<-A^B
+cat("Sum=",sumAB,"\n")
+cat("diff=",diffAB,"\n")
+cat("product=",prodAB,"\n")
+cat("division=",divAB,"\n")
+cat("exponential=",powAB,"\n")
+repA<-rep(A,times=2)
+cat("repeated A=",repA,"\n")
+pasteA<-paste("A:",A,sep="")
+cat("conacatenated A:",pasteA)
+cumprodA<-cumprod(A)
+cat("cumproduct of A:",cumprodA)
+
+*************************************************
+2dataframes:
+Name<-c("Ram","Alwin","Billy","Amera","Olive","Dora")
+Age<-c(30,35,22,16,42,59)
+Height<-c(177,164,155,180,124,150)
+Weight<-c(57,48,45,60,52,55)
+Gender<-as.factor(c("M","F","M","F","F","F"))
+df<-data.frame(Name,Age,Height,Weight,Gender)
+levels(df$Gender)<-c("M","F")
+df$Gender<-as.factor(df$Gender)
+df
+Working<-c("Y","N","Y","N","Y","N")
+df2<-data.frame(Working,stringsAsFactors = FALSE)
+df<-cbind(df,df2)
+df
+**********************
+4two loops:
+for(a in 1:3)
+{
+  for(b in 1:3)
+  {
+    print(paste("a=",a,"b=",b))
+    if(b==2)
+    {
+      break
+    }
+  }
+}
+
+i<-2
+while(i<=5)
+{
+  if(i==4)
+  {
+    i<-i+1
+    next
+  }
+  print(i)
+  i<-i+1
+}
+*****************************
+5divisors:
+countDivisors<-function(num)
+{
+  divisors<-c()
+  for(i in 2:(num-1))
+  {
+    if(num%%i==0)
+    {
+      divisors<-c(divisors,i)
+    }
+  }
+  divisorCount<-length(divisors)
+  cat("divisors are:",divisors,"\n")
+  cat("number of divisors:",divisorCount,"\n")
+}
+num<-as.integer(readline("enter integer:"))
+countDivisors(num)
+**********************
+6replace NA:
+replace_with_NA<-function(data_frame,num)
+{
+  data_frame[data_frame==num]<-NA
+  return(data_frame)
+}
+x<-c(1,2,3,4,5)
+y<-c("A","B","A","C","A")
+df<-data.frame(x,y)
+newdf<-replace_with_NA(df,"A")
+newdf
+**********************
+7.filepath:
+filePath<-"C:/Users/reddy/OneDrive/Desktop/exaam/table0.txt"
+data<-read.table(filePath,header=TRUE,na.strings=c("--","*","**"))
+convert_to_na<-function(x)
+{
+  if(is.na(as.numeric(x)))
+  {
+    return(NA)
+  }
+  else
+  {
+    return(as.numeric(x))
+  }
+}
+data$Age<-sapply(data$Age,convert_to_na)
+data$Height<-sapply(data$Height,convert_to_na)
+avg_weight<-mean(data$Weight,na.rm=TRUE)
+data$Weight[is.na(data$Weight)]<-avg_weight
+print(data)
+*************************
+8.
+
+**********************
+
+9
+library(ggplot2)
+ggplot(mtcars,aes(x=mpg,y=drat))+geom_point()+labs(title="hgsxf",x="meow",y="bow")+theme_minimal()
+********************8
+10.
+library(ggplot2)
+data(mtcars)
+selected_variables<-c("mpg","disp","hp","qsec")
+selected_data<-mtcars[, selected_variables]
+selescted_data_long<-stack(selected_data)
+ggplot(selected_data_long,aes(x=ind,y=values,group=ind,color=ind))+geom_line()+geom_point(size=3)+labs(title="Line and plot with differebt variables",x="variables",y="values")+theme_minimal()
+highlight_vars<-c("mpg","disp","hp","qsec")
+highlight_colors<-c("red","blue","green","orange")
+selected_data_highlighted_long<-stack(selected_data)
+selected_data_highlighted_long$highlight<-
+  ifelse(selected_data_highlighted_long$ind%in%highlight_vars,"highlighted","normal")
+ggplot(selected_data_highlighted_long,aes(x=ind,y=values,group=ind,color=ind,shape=highlight))+geom_line()+geom_point(size=3)+
+  scale_shape_manual(values=c("highlighted"=16,"normal"=19))+scale_color_manual(values = highlight_colors)+
+  labs(title="Line and Plot with highlighted variables",x="variables",y="values")+
+  theme_minimal()
+
+
